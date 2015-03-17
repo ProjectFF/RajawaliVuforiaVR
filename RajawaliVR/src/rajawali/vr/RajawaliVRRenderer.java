@@ -26,11 +26,12 @@ public class RajawaliVRRenderer extends RajawaliSideBySideRenderer {
 	@Override
 	public void initScene() {
 		super.initScene();
+		
 	}
 	
 	public void setHeadTracker(HeadTracker headTracker) {
 		mHeadTracker = headTracker;
-	
+		
 	}
 	
 	@Override
