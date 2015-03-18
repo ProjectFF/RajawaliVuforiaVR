@@ -15,7 +15,7 @@ public final class R {
 		public static final int ic_launcher = 0x7f020004;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f090000;
+		public static final int action_settings = 0x7f090003;
 	}
 	public static final class menu {
 		public static final int rajawali_vr = 0x7f080000;
@@ -29,7 +29,7 @@ public final class R {
 		public static final int fog_fragment_shader = 0x7f040008;
 		public static final int grey_scale_fragment_shader = 0x7f04000a;
 		public static final int minimal_vertex_shader = 0x7f04000b;
-		public static final int sepia_fragment_shader = 0x7f04000c;
+		public static final int sepia_fragment_shader = 0x7f04000d;
 	}
 	public static final class string {
 		public static final int action_settings = 0x7f050002;
