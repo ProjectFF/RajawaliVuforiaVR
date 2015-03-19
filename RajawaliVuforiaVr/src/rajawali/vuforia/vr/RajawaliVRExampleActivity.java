@@ -2,9 +2,11 @@ package rajawali.vuforia.vr;
 
 import rajawali.vr.RajawaliVRActivity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.InputDevice;
 import android.view.KeyEvent;
@@ -52,21 +54,27 @@ public class RajawaliVRExampleActivity extends RajawaliVRActivity implements Inp
 		layout.setOrientation(LinearLayout.HORIZONTAL);
 		layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-	    
+	    Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		int height = size.y;
+		
 	    tl = new TextView(this);
 	    tl.setLayoutParams(new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
 	    tl.setWidth(0);
-	    tl.setGravity(Gravity.LEFT);
-	    tl.setText("LEFT");
+	    tl.setText("+");
+	    tl.setPaddingRelative(width/4, height/2, 0, 0);
 	    tl.setTextSize(20);
-	    
+	    tl.setAlpha(.30f);
 	    mLayout.addView(tl);
 		
 	    tr = new TextView(this);
 	    tr.setLayoutParams(new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
-	    tl.setWidth(0);
-	    tr.setGravity(Gravity.RIGHT);
-	    tr.setText("LEFT");
+	    tr.setWidth(0);
+	    tr.setPaddingRelative((width/4)*3, height/2, 0, 0);
+	    tr.setText("+");
+	    tr.setAlpha(.30f);
 	    tr.setTextSize(20);
 	    
 	    mLayout.addView(tr);

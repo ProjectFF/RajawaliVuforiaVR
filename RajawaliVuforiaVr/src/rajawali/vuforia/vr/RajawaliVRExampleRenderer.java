@@ -66,6 +66,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 		getCurrentScene().addLight(light);
 		
 		getCurrentCamera().setFarPlane(1000);
+		getCurrentCamera().setFieldOfView(120);
 		
 		getCurrentScene().setBackgroundColor(0xdddddd);
 		
@@ -77,7 +78,6 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			Loader3DSMax loader = new Loader3DSMax(this, R.raw.room);
 			loader.parse();
 			
-			
 			Material roommat = new Material();
 			roommat.setDiffuseMethod(new DiffuseMethod.Lambert());
 			roommat.setColorInfluence(0);
@@ -88,6 +88,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			room.setMaterial(roommat);
 			room.setDoubleSided(true);
 			room.setName("room");
+			room.setScale(4,2,4);
 			objects.add("room");
 			getCurrentScene().addChild(room);			
 			
@@ -158,18 +159,6 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 //		    exporter.setExportModel(tube);
 //            exporter.export();
 			
-			Material mat = new Material();
-			mat.setDiffuseMethod(new DiffuseMethod.Lambert());
-			mat.setColorInfluence(0);
-			mat.enableLighting(true);
-			mat.addTexture(new Texture("hair", R.drawable.crosshair));
-			
-			crosshair = new Plane(1,1,1,1);
-			crosshair.setTransparent(true);
-			crosshair.setMaterial(mat);
-			crosshair.setDoubleSided(true);
-			crosshair.setPosition(0, 0, .5);
-			getCurrentScene().addChild(crosshair);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -232,7 +221,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x-.1, pos.y, pos.z);}
+		        			o.setPosition(pos.x-.5, pos.y, pos.z);}
 		        		}
 	                	handled = true;
 	                    break;
@@ -240,35 +229,35 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x+.1, pos.y, pos.z);}}
+		        			o.setPosition(pos.x+.5, pos.y, pos.z);}}
 		        		handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_UP:
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y+.1, pos.z);}}
+		        			o.setPosition(pos.x, pos.y+.5, pos.z);}}
 		        		handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_DOWN:
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y-.1, pos.z);}}
+		        			o.setPosition(pos.x, pos.y-.5, pos.z);}}
 	                    handled = true;
 	                    break;
 	                case 105:
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y, pos.z+.1);}}
+		        			o.setPosition(pos.x, pos.y, pos.z+.5);}}
 	                    handled = true;
 	                    break;
 	                case 104:
 	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
 	                		if (inList(o.getName(), objects)){
 		                		Vector3 pos = o.getPosition();
-	                			o.setPosition(pos.x, pos.y, pos.z-.1);}}
+	                			o.setPosition(pos.x, pos.y, pos.z-.5);}}
 	                    handled = true;
 	                    break;
 	                default:
@@ -295,9 +284,6 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 		super.onDrawFrame(glUnused);
 		count+=0.1f;
 		getCurrentScene().getCamera().getOrientation(q);
-		crosshair.setOrientation(q.inverse());
-		String textLeft = String.format(res.getString(R.string.textLeft),Double.toString(q.x));
-		String textRight = String.format(res.getString(R.string.textRight),Double.toString(q.x));
 		
 	}
 	
