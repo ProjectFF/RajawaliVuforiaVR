@@ -25,11 +25,12 @@ public final class R {
         public static final int negx=0x7f020005;
         public static final int negy=0x7f020006;
         public static final int negz=0x7f020007;
-        public static final int posx=0x7f020008;
-        public static final int posy=0x7f020009;
-        public static final int posz=0x7f02000a;
-        public static final int room=0x7f02000b;
-        public static final int tube=0x7f02000c;
+        public static final int player=0x7f020008;
+        public static final int posx=0x7f020009;
+        public static final int posy=0x7f02000a;
+        public static final int posz=0x7f02000b;
+        public static final int room=0x7f02000c;
+        public static final int tube=0x7f02000d;
     }
     public static final class id {
         public static final int action_settings=0x7f090003;
@@ -55,9 +56,11 @@ public final class R {
         public static final int geraet=0x7f040008;
         public static final int grey_scale_fragment_shader=0x7f040009;
         public static final int minimal_vertex_shader=0x7f04000a;
-        public static final int room=0x7f04000b;
-        public static final int sepia_fragment_shader=0x7f04000c;
-        public static final int tube=0x7f04000d;
+        public static final int player_mesh=0x7f04000b;
+        public static final int player_run=0x7f04000c;
+        public static final int room=0x7f04000d;
+        public static final int sepia_fragment_shader=0x7f04000e;
+        public static final int tube=0x7f04000f;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;

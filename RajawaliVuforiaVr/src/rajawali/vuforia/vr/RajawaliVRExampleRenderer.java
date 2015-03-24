@@ -8,6 +8,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import rajawali.Object3D;
 import rajawali.SerializedObject3D;
+import rajawali.animation.mesh.SkeletalAnimationObject3D;
+import rajawali.animation.mesh.SkeletalAnimationSequence;
 import rajawali.lights.DirectionalLight;
 import rajawali.materials.Material;
 import rajawali.materials.methods.DiffuseMethod;
@@ -15,6 +17,9 @@ import rajawali.materials.textures.Texture;
 import rajawali.math.Quaternion;
 import rajawali.math.vector.Vector3;
 import rajawali.parser.Loader3DSMax;
+import rajawali.parser.ParsingException;
+import rajawali.parser.md5.LoaderMD5Anim;
+import rajawali.parser.md5.LoaderMD5Mesh;
 import rajawali.primitives.Plane;
 import rajawali.terrain.SquareTerrain;
 import rajawali.util.MeshExporter;
@@ -90,7 +95,11 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			room.setName("room");
 			room.setScale(4,2,4);
 			objects.add("room");
-			getCurrentScene().addChild(room);			
+			getCurrentScene().addChild(room);		
+			
+			SkeletalAnimationObject3D player = showMonster("player", new Vector3( 0f, 0f, 1), new Vector3(0,90,0), new Vector3(20f));
+			player.setFps(14);
+			loadAnim2Obj(player,"player_run", true); 
 			
 //			ObjectInputStream ois;
 //		    ois = new ObjectInputStream(mContext.getResources().openRawResource(R.raw.deckel));
@@ -167,6 +176,69 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 		super.initScene();
 	}
 	
+	public SkeletalAnimationObject3D showMonster(String Monster, Vector3 pos, Vector3 rot, Vector3 scale, int fps){
+		
+	    SkeletalAnimationObject3D mObject = new SkeletalAnimationObject3D();
+	    		
+		int mesh = getContext().getResources().getIdentifier(Monster + "_mesh", "raw", "rajawali.vuforia.vr");
+		scale = scale.multiply(0.0001f); 
+		
+		try {
+			LoaderMD5Mesh meshParser = new LoaderMD5Mesh(this,
+					mesh);
+			meshParser.parse();
+
+		    mObject = (SkeletalAnimationObject3D) meshParser
+					.getParsedAnimationObject();
+			
+			mObject.setPosition(pos);
+			mObject.setRotation(rot);
+			mObject.setScale(scale);
+			mObject.setFps(fps);
+			mObject.setTransparent(true);
+			
+			getCurrentScene().addChild(mObject);
+			
+			return mObject;
+			
+		} catch (ParsingException e) {
+			e.printStackTrace();
+		}
+		
+		return mObject;
+	}
+	
+	public void loadAnim2Obj(SkeletalAnimationObject3D obj, String animname, boolean loop)
+	{
+		try{
+		
+		int anim = getContext().getResources().getIdentifier(animname, "raw", "rajawali.vuforia.vr");
+
+		LoaderMD5Anim animParser = new LoaderMD5Anim(animname, this,
+													 anim);
+		animParser.parse();
+
+		SkeletalAnimationSequence sequence = (SkeletalAnimationSequence) animParser
+			.getParsedAnimationSequence();
+		
+		obj.setAnimationSequence(sequence);
+		obj.play(false);
+		} catch (ParsingException e) {
+			e.printStackTrace();
+		}
+	
+			
+	}
+	
+	public SkeletalAnimationObject3D showMonster(String Monster, Vector3 pos, Vector3 rot, Vector3 scale)
+	{	
+		return showMonster(Monster,pos,rot,scale , 8);
+	}
+	
+	public SkeletalAnimationObject3D showMonster(String Monster, Vector3 pos, Vector3 rot)
+	{	
+		return showMonster(Monster,pos,rot,new Vector3(0.0001f), 8);
+	}
 	
 	public Bitmap textAsBitmap(String text) 
 	{
