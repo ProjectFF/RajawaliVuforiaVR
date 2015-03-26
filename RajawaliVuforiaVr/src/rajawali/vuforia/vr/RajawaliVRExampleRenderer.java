@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import rajawali.Camera;
 import rajawali.Object3D;
 import rajawali.SerializedObject3D;
 import rajawali.animation.mesh.SkeletalAnimationObject3D;
@@ -47,12 +48,13 @@ import android.view.KeyEvent;
 
 public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 	float count = 0;
-	Quaternion q = new Quaternion();
+	Quaternion mPlayerOrientation = new Quaternion();
 	Object3D crosshair;
 	ArrayList<String> objects = new ArrayList<String>();
 	Resources res;
 	String tr, tl;
-	
+	SkeletalAnimationObject3D player;
+	boolean loaded = false;
 	
 	public RajawaliVRExampleRenderer(Context context) {
 		super(context);
@@ -97,77 +99,9 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			objects.add("room");
 			getCurrentScene().addChild(room);		
 			
-			SkeletalAnimationObject3D player = showMonster("player", new Vector3( 0f, 0f, 1), new Vector3(0,90,0), new Vector3(20f));
-			player.setFps(14);
-			loadAnim2Obj(player,"player_run", true); 
-			
-//			ObjectInputStream ois;
-//		    ois = new ObjectInputStream(mContext.getResources().openRawResource(R.raw.deckel));
-//		    Object3D deckel = new Object3D((SerializedObject3D)ois.readObject());
-//		    ois.close();
-//			
-//			Material deckelmat = new Material();
-//			deckelmat.setDiffuseMethod(new DiffuseMethod.Lambert());
-//			deckelmat.setColorInfluence(0);
-//			deckelmat.enableLighting(true);
-//			deckelmat.addTexture(new Texture("deckel", R.drawable.deckel));
-//			
-//			deckel.setMaterial(deckelmat);
-//			deckel.setName("deckel");
-//			objects.add("deckel");
-//			getCurrentScene().addChild(deckel);
-//			
-//			
-//			Material geraetmat = new Material();
-//			geraetmat.setDiffuseMethod(new DiffuseMethod.Lambert());
-//			geraetmat.setColorInfluence(0);
-//			geraetmat.enableLighting(true);
-//			geraetmat.addTexture(new Texture("geraet", R.drawable.geraet));
-//		
-//			ois = new ObjectInputStream(mContext.getResources().openRawResource(R.raw.geraet));
-//		    Object3D geraet = new Object3D((SerializedObject3D)ois.readObject());
-//		    ois.close();
-//			
-//			geraet.setMaterial(geraetmat);
-//			geraet.setName("geraet");
-//			objects.add("geraet");
-//			getCurrentScene().addChild(geraet);
-//			
-//			
-//			Material floormat = new Material();
-//			floormat.setDiffuseMethod(new DiffuseMethod.Lambert());
-//			floormat.setColorInfluence(0);
-//			floormat.enableLighting(true);
-//			floormat.addTexture(new Texture("floor", R.drawable.floor));
-//			
-//			Object3D floor = new Plane(100,100,1,1);
-//			floor.setDoubleSided(true);
-//			floor.setMaterial(floormat);
-//			floor.setName("floor");
-//			objects.add("floor");
-//			getCurrentScene().addChild(floor);
-//			
-//			Material tubemat = new Material();
-//			tubemat.setDiffuseMethod(new DiffuseMethod.Lambert());
-//			tubemat.setColorInfluence(0);
-//			tubemat.enableLighting(true);
-//			tubemat.addTexture(new Texture("tube", R.drawable.tube));
-//			
-//			ois = new ObjectInputStream(mContext.getResources().openRawResource(R.raw.tube));
-//		    Object3D tube = new Object3D((SerializedObject3D)ois.readObject());
-//		    ois.close();
-//			
-//			tube.setMaterial(tubemat);
-//			tube.setName("tube");
-//			objects.add("tube");
-//			getCurrentScene().addChild(tube);
-//		
-//			SerializationExporter exporter = new SerializationExporter();
-//			File myFile = new File("/sdcard/tube.ser");
-//            exporter.setExportFile(myFile);
-//		    exporter.setExportModel(tube);
-//            exporter.export();
-			
+			player = showMonster("player", new Vector3( 0f, -1.5f, -1.5), new Vector3(0,180,0), new Vector3(.5f));
+			player.setFps(15);
+			loadAnim2Obj(player,"player_idle", false); 
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -181,27 +115,27 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 	    SkeletalAnimationObject3D mObject = new SkeletalAnimationObject3D();
 	    		
 		int mesh = getContext().getResources().getIdentifier(Monster + "_mesh", "raw", "rajawali.vuforia.vr");
-		scale = scale.multiply(0.0001f); 
+		//scale = scale.multiply(0.01f); 
 		
 		try {
 			LoaderMD5Mesh meshParser = new LoaderMD5Mesh(this,
 					mesh);
 			meshParser.parse();
 
-		    mObject = (SkeletalAnimationObject3D) meshParser
+			mObject = (SkeletalAnimationObject3D) meshParser
 					.getParsedAnimationObject();
 			
 			mObject.setPosition(pos);
 			mObject.setRotation(rot);
 			mObject.setScale(scale);
 			mObject.setFps(fps);
-			mObject.setTransparent(true);
+			mObject.setTransparent(false);
 			
 			getCurrentScene().addChild(mObject);
 			
 			return mObject;
 			
-		} catch (ParsingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -222,7 +156,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			.getParsedAnimationSequence();
 		
 		obj.setAnimationSequence(sequence);
-		obj.play(false);
+		obj.play(loop);
 		} catch (ParsingException e) {
 			e.printStackTrace();
 		}
@@ -282,70 +216,141 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 			((RajawaliVRExampleActivity) mContext).setText(text);
 	}
 	
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//	        
+//    		int deviceId = event.getDeviceId();
+//	        boolean handled = false;
+//    		if (deviceId != -1) {
+//	        	Log.d("KEYCODE", Integer.toString(event.getKeyCode()));
+//	        	 switch (keyCode) {
+//	                case KeyEvent.KEYCODE_DPAD_LEFT:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//	                		Vector3 pos = o.getPosition();
+//		        			o.setPosition(pos.x-.5, pos.y, pos.z);}
+//		        		}
+//	                	handled = true;
+//	                    break;
+//	                case KeyEvent.KEYCODE_DPAD_RIGHT:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//	                		Vector3 pos = o.getPosition();
+//		        			o.setPosition(pos.x+.5, pos.y, pos.z);}}
+//		        		handled = true;
+//	                    break;
+//	                case KeyEvent.KEYCODE_DPAD_UP:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//	                		Vector3 pos = o.getPosition();
+//		        			o.setPosition(pos.x, pos.y+.5, pos.z);}}
+//		        		handled = true;
+//	                    break;
+//	                case KeyEvent.KEYCODE_DPAD_DOWN:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//	                		Vector3 pos = o.getPosition();
+//		        			o.setPosition(pos.x, pos.y-.5, pos.z);}}
+//	                    handled = true;
+//	                    break;
+//	                case 105:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//	                		Vector3 pos = o.getPosition();
+//		        			o.setPosition(pos.x, pos.y, pos.z+.5);}}
+//	                    handled = true;
+//	                    break;
+//	                case 104:
+//	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
+//	                		if (inList(o.getName(), objects)){
+//		                		Vector3 pos = o.getPosition();
+//	                			o.setPosition(pos.x, pos.y, pos.z-.5);}}
+//	                    handled = true;
+//	                    break;
+//	                default:
+//	                    if (isFireKey(keyCode)) {
+//	                        handled = true;
+//	                    }
+//	                    break;
+//	            }
+//	        }
+//	       return handled;
+//    }
+
+	 public boolean onKeyDown(int keyCode, KeyEvent event) {
 	        
-    		int deviceId = event.getDeviceId();
+ 		int deviceId = event.getDeviceId();
 	        boolean handled = false;
-    		if (deviceId != -1) {
+ 		if (deviceId != -1) {
 	        	Log.d("KEYCODE", Integer.toString(event.getKeyCode()));
 	        	 switch (keyCode) {
 	                case KeyEvent.KEYCODE_DPAD_LEFT:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x-.5, pos.y, pos.z);}
-		        		}
+	                	if (!loaded){ 
+	                		player.setFps(15);
+	                		loadAnim2Obj(player,"player_sidestep", false); loaded = true;
+	                		} 
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x-0.5f,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x-0.5f,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z);
+	                		player.setPosition(player.getPosition().x-.5f,player.getPosition().y,player.getPosition().z);
 	                	handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_RIGHT:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x+.5, pos.y, pos.z);}}
-		        		handled = true;
+	                	if (!loaded){ 
+	                		player.setFps(15);
+	                		loadAnim2Obj(player,"player_sidestep", false); loaded = true;
+	                		} 
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x+0.5f,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x+0.5f,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z);
+	                		player.setPosition(player.getPosition().x+.5f,player.getPosition().y,player.getPosition().z);
+                		handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_UP:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y+.5, pos.z);}}
-		        		handled = true;
+	                	if (!loaded){ 
+	                		player.setFps(15);
+	                		loadAnim2Obj(player,"player_run", false); loaded = true;
+	                		} 
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z-.5f);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z-.5f);
+	                		player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z-.5f);
+	                	handled = true;
 	                    break;
-	                case KeyEvent.KEYCODE_DPAD_DOWN:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y-.5, pos.z);}}
-	                    handled = true;
+	                case 20:
+	                	if (!loaded){ 
+	                		loadAnim2Obj(player,"player_walk", false); loaded = true;player.setFps(15);
+	                		}
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z+.5f);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z+.5f);
+	                		player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z+.5f);
+	                	handled = true;
 	                    break;
 	                case 105:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-	                		Vector3 pos = o.getPosition();
-		        			o.setPosition(pos.x, pos.y, pos.z+.5);}}
-	                    handled = true;
+	                	if (!loaded){
+	                		player.setFps(30);
+	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
+	                		}
+	                	handled = true;
 	                    break;
 	                case 104:
-	                	for (Object3D o : getCurrentScene().getChildrenCopy()){
-	                		if (inList(o.getName(), objects)){
-		                		Vector3 pos = o.getPosition();
-	                			o.setPosition(pos.x, pos.y, pos.z-.5);}}
-	                    handled = true;
+	                	if (!loaded){
+	                		player.setFps(30);
+	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
+	                		}
+	                	handled = true;
 	                    break;
 	                default:
 	                    if (isFireKey(keyCode)) {
-	                        handled = true;
+	                    	handled = true;
 	                    }
-	                    break;
+	                    loadAnim2Obj(player,"player_idle", false); 
+            			break;
 	            }
 	        }
 	       return handled;
-    }
-
+ }
        
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 	        int deviceId = event.getDeviceId();
 	        if (deviceId != -1) {
+	        	loadAnim2Obj(player,"player_idle", false); loaded = false;
 	        }
 	        return true;
     }
@@ -355,7 +360,13 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer {
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
 		count+=0.1f;
-		getCurrentScene().getCamera().getOrientation(q);
+//		mHeadTracker.getLastHeadView(mHeadViewMatrix, 0);
+//		mHeadViewMatrix4.setAll(mHeadViewMatrix);
+//		mPlayerOrientation.fromMatrix(mHeadViewMatrix4);
+//		mPlayerOrientation.y *= -1;
+//		player.setOrientation(mPlayerOrientation);
+    	
+    	
 		
 	}
 	

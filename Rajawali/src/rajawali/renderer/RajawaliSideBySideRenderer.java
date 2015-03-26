@@ -103,11 +103,11 @@ public class RajawaliSideBySideRenderer extends RajawaliRenderer {
 	/**
 	 * The camera for the left eye
 	 */
-	private Camera mCameraLeft;
+	public Camera mCameraLeft;
 	/**
 	 * The camera for the right eye
 	 */
-	private Camera mCameraRight;
+	public Camera mCameraRight;
 	/**
 	 * Half the width of the viewport. The screen will be split in two.
 	 * One half for the left eye and one half for the right eye.

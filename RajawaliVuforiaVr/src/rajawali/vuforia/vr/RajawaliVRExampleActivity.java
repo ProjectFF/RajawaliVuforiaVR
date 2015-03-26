@@ -103,12 +103,6 @@ public class RajawaliVRExampleActivity extends RajawaliVRActivity implements Inp
 	}
 	
 	@Override
-	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		return super.onKeyLongPress(keyCode, event);
-	}
-	
-	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		mRenderer.onKeyUp(keyCode, event); 
