@@ -9,6 +9,49 @@ package rajawali.vuforia.vr;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int frameRate=0x7f010000;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int isTransparent=0x7f010003;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int multisamplingEnabled=0x7f010001;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int renderMode=0x7f010004;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int useCoverageAntiAliasing=0x7f010002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -17,29 +60,40 @@ public final class R {
         public static final int activity_vertical_margin=0x7f070001;
     }
     public static final class drawable {
-        public static final int crosshair=0x7f020000;
-        public static final int deckel=0x7f020001;
-        public static final int floor=0x7f020002;
-        public static final int geraet=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int negx=0x7f020005;
-        public static final int negy=0x7f020006;
-        public static final int negz=0x7f020007;
-        public static final int player=0x7f020008;
-        public static final int posx=0x7f020009;
-        public static final int posy=0x7f02000a;
-        public static final int posz=0x7f02000b;
-        public static final int room=0x7f02000c;
-        public static final int tube=0x7f02000d;
+        public static final int dedust_material_1=0x7f020000;
+        public static final int dedust_material_10=0x7f020001;
+        public static final int dedust_material_11=0x7f020002;
+        public static final int dedust_material_12=0x7f020003;
+        public static final int dedust_material_13=0x7f020004;
+        public static final int dedust_material_2=0x7f020005;
+        public static final int dedust_material_3=0x7f020006;
+        public static final int dedust_material_4=0x7f020007;
+        public static final int dedust_material_5=0x7f020008;
+        public static final int dedust_material_6=0x7f020009;
+        public static final int dedust_material_7=0x7f02000a;
+        public static final int dedust_material_8=0x7f02000b;
+        public static final int dedust_material_9=0x7f02000c;
+        public static final int desert=0x7f02000d;
+        public static final int ic_launcher=0x7f02000e;
+        public static final int negx=0x7f02000f;
+        public static final int negy=0x7f020010;
+        public static final int negz=0x7f020011;
+        public static final int player=0x7f020012;
+        public static final int posx=0x7f020013;
+        public static final int posy=0x7f020014;
+        public static final int posz=0x7f020015;
+        public static final int room=0x7f020016;
     }
     public static final class id {
-        public static final int action_settings=0x7f090003;
-        public static final int linearLayout2=0x7f090000;
-        public static final int textView1=0x7f090001;
-        public static final int textView2=0x7f090002;
+        public static final int RENDER_CONTINUOUS=0x7f090000;
+        public static final int RENDER_WHEN_DIRTY=0x7f090001;
+        public static final int action_settings=0x7f090004;
+        public static final int container=0x7f090002;
+        public static final int rajwali_surface=0x7f090003;
     }
     public static final class layout {
-        public static final int activity_rajawali_vrexample=0x7f030000;
+        public static final int layout=0x7f030000;
+        public static final int main_layout=0x7f030001;
     }
     public static final class menu {
         public static final int rajawali_vr=0x7f080000;
@@ -50,18 +104,26 @@ public final class R {
         public static final int blur_fragment_shader=0x7f040002;
         public static final int color_threshold_shader=0x7f040003;
         public static final int copy_fragment_shader=0x7f040004;
-        public static final int floor=0x7f040005;
-        public static final int fog_fragment_shader=0x7f040006;
-        public static final int grey_scale_fragment_shader=0x7f040007;
-        public static final int minimal_vertex_shader=0x7f040008;
-        public static final int player_idle=0x7f040009;
-        public static final int player_mesh=0x7f04000a;
-        public static final int player_run=0x7f04000b;
-        public static final int player_shoot=0x7f04000c;
-        public static final int player_sidestep=0x7f04000d;
-        public static final int player_walk=0x7f04000e;
-        public static final int room=0x7f04000f;
-        public static final int sepia_fragment_shader=0x7f040010;
+        public static final int dust_mtl=0x7f040005;
+        public static final int dust_obj=0x7f040006;
+        public static final int floor=0x7f040007;
+        public static final int fog_fragment_shader=0x7f040008;
+        public static final int grey_scale_fragment_shader=0x7f040009;
+        public static final int minimal_vertex_shader=0x7f04000a;
+        public static final int model=0x7f04000b;
+        public static final int player_idle=0x7f04000c;
+        public static final int player_mesh=0x7f04000d;
+        public static final int player_run=0x7f04000e;
+        public static final int player_shoot=0x7f04000f;
+        public static final int player_sidestep=0x7f040010;
+        public static final int player_walk=0x7f040011;
+        public static final int room=0x7f040012;
+        public static final int room2=0x7f040013;
+        public static final int sepia_fragment_shader=0x7f040014;
+        public static final int test=0x7f040015;
+        public static final int torbogen_mtl=0x7f040016;
+        public static final int torbogen_obj=0x7f040017;
+        public static final int vignette_fragment_shader=0x7f040018;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
@@ -142,4 +204,179 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a RajawaliSurfaceView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_frameRate rajawali.vuforia.vr:frameRate}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_isTransparent rajawali.vuforia.vr:isTransparent}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_multisamplingEnabled rajawali.vuforia.vr:multisamplingEnabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_renderMode rajawali.vuforia.vr:renderMode}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_useCoverageAntiAliasing rajawali.vuforia.vr:useCoverageAntiAliasing}</code></td><td></td></tr>
+           </table>
+           @see #RajawaliSurfaceView_frameRate
+           @see #RajawaliSurfaceView_isTransparent
+           @see #RajawaliSurfaceView_multisamplingEnabled
+           @see #RajawaliSurfaceView_renderMode
+           @see #RajawaliSurfaceView_useCoverageAntiAliasing
+         */
+        public static final int[] RajawaliSurfaceView = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#frameRate}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:frameRate
+        */
+        public static final int RajawaliSurfaceView_frameRate = 0;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#isTransparent}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:isTransparent
+        */
+        public static final int RajawaliSurfaceView_isTransparent = 3;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#multisamplingEnabled}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:multisamplingEnabled
+        */
+        public static final int RajawaliSurfaceView_multisamplingEnabled = 1;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#renderMode}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name rajawali.vuforia.vr:renderMode
+        */
+        public static final int RajawaliSurfaceView_renderMode = 4;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#useCoverageAntiAliasing}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:useCoverageAntiAliasing
+        */
+        public static final int RajawaliSurfaceView_useCoverageAntiAliasing = 2;
+        /** Attributes that can be used with a RajawaliTextureView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RajawaliTextureView_frameRate rajawali.vuforia.vr:frameRate}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_multisamplingEnabled rajawali.vuforia.vr:multisamplingEnabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_renderMode rajawali.vuforia.vr:renderMode}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_useCoverageAntiAliasing rajawali.vuforia.vr:useCoverageAntiAliasing}</code></td><td></td></tr>
+           </table>
+           @see #RajawaliTextureView_frameRate
+           @see #RajawaliTextureView_multisamplingEnabled
+           @see #RajawaliTextureView_renderMode
+           @see #RajawaliTextureView_useCoverageAntiAliasing
+         */
+        public static final int[] RajawaliTextureView = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#frameRate}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:frameRate
+        */
+        public static final int RajawaliTextureView_frameRate = 0;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#multisamplingEnabled}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:multisamplingEnabled
+        */
+        public static final int RajawaliTextureView_multisamplingEnabled = 1;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#renderMode}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name rajawali.vuforia.vr:renderMode
+        */
+        public static final int RajawaliTextureView_renderMode = 3;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vuforia.vr.R.attr#useCoverageAntiAliasing}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vuforia.vr:useCoverageAntiAliasing
+        */
+        public static final int RajawaliTextureView_useCoverageAntiAliasing = 2;
+    };
 }

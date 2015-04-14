@@ -1,4 +1,11 @@
+int attr frameRate 0x7f010000
+int attr isTransparent 0x7f010003
+int attr multisamplingEnabled 0x7f010001
+int attr renderMode 0x7f010004
+int attr useCoverageAntiAliasing 0x7f010002
 int drawable ic_launcher 0x7f020000
+int id RENDER_CONTINUOUS 0x7f060000
+int id RENDER_WHEN_DIRTY 0x7f060001
 int raw blend_add_fragment_shader 0x7f030000
 int raw blend_screen_fragment_shader 0x7f030001
 int raw blur_fragment_shader 0x7f030002
@@ -8,6 +15,18 @@ int raw fog_fragment_shader 0x7f030005
 int raw grey_scale_fragment_shader 0x7f030006
 int raw minimal_vertex_shader 0x7f030007
 int raw sepia_fragment_shader 0x7f030008
+int raw vignette_fragment_shader 0x7f030009
 int string app_name 0x7f040000
 int style AppBaseTheme 0x7f050000
 int style AppTheme 0x7f050001
+int[] styleable RajawaliSurfaceView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 }
+int styleable RajawaliSurfaceView_frameRate 0
+int styleable RajawaliSurfaceView_isTransparent 3
+int styleable RajawaliSurfaceView_multisamplingEnabled 1
+int styleable RajawaliSurfaceView_renderMode 4
+int styleable RajawaliSurfaceView_useCoverageAntiAliasing 2
+int[] styleable RajawaliTextureView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010004 }
+int styleable RajawaliTextureView_frameRate 0
+int styleable RajawaliTextureView_multisamplingEnabled 1
+int styleable RajawaliTextureView_renderMode 3
+int styleable RajawaliTextureView_useCoverageAntiAliasing 2

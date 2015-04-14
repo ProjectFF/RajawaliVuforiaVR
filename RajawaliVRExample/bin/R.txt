@@ -1,3 +1,8 @@
+int attr frameRate 0x7f010000
+int attr isTransparent 0x7f010003
+int attr multisamplingEnabled 0x7f010001
+int attr renderMode 0x7f010004
+int attr useCoverageAntiAliasing 0x7f010002
 int dimen activity_horizontal_margin 0x7f070000
 int dimen activity_vertical_margin 0x7f070001
 int drawable dark_fighter_6_color 0x7f020000
@@ -14,8 +19,11 @@ int drawable posy 0x7f02000a
 int drawable posz 0x7f02000b
 int drawable space_cruiser_4_color_1 0x7f02000c
 int drawable terrain 0x7f02000d
-int id action_settings 0x7f090000
+int id RENDER_CONTINUOUS 0x7f090000
+int id RENDER_WHEN_DIRTY 0x7f090001
+int id action_settings 0x7f090002
 int layout activity_rajawali_vrexample 0x7f030000
+int layout layout 0x7f030001
 int menu rajawali_vr 0x7f080000
 int raw blend_add_fragment_shader 0x7f040000
 int raw blend_screen_fragment_shader 0x7f040001
@@ -29,8 +37,20 @@ int raw grey_scale_fragment_shader 0x7f040008
 int raw minimal_vertex_shader 0x7f040009
 int raw sepia_fragment_shader 0x7f04000a
 int raw space_cruiser 0x7f04000b
+int raw vignette_fragment_shader 0x7f04000c
 int string action_settings 0x7f050002
 int string app_name 0x7f050000
 int string hello_world 0x7f050001
 int style AppBaseTheme 0x7f060000
 int style AppTheme 0x7f060001
+int[] styleable RajawaliSurfaceView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 }
+int styleable RajawaliSurfaceView_frameRate 0
+int styleable RajawaliSurfaceView_isTransparent 3
+int styleable RajawaliSurfaceView_multisamplingEnabled 1
+int styleable RajawaliSurfaceView_renderMode 4
+int styleable RajawaliSurfaceView_useCoverageAntiAliasing 2
+int[] styleable RajawaliTextureView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010004 }
+int styleable RajawaliTextureView_frameRate 0
+int styleable RajawaliTextureView_multisamplingEnabled 1
+int styleable RajawaliTextureView_renderMode 3
+int styleable RajawaliTextureView_useCoverageAntiAliasing 2

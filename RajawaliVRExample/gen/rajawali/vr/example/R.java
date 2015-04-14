@@ -9,6 +9,49 @@ package rajawali.vr.example;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int frameRate=0x7f010000;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int isTransparent=0x7f010003;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int multisamplingEnabled=0x7f010001;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int renderMode=0x7f010004;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int useCoverageAntiAliasing=0x7f010002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -33,10 +76,13 @@ public final class R {
         public static final int terrain=0x7f02000d;
     }
     public static final class id {
-        public static final int action_settings=0x7f090000;
+        public static final int RENDER_CONTINUOUS=0x7f090000;
+        public static final int RENDER_WHEN_DIRTY=0x7f090001;
+        public static final int action_settings=0x7f090002;
     }
     public static final class layout {
         public static final int activity_rajawali_vrexample=0x7f030000;
+        public static final int layout=0x7f030001;
     }
     public static final class menu {
         public static final int rajawali_vr=0x7f080000;
@@ -54,6 +100,7 @@ public final class R {
         public static final int minimal_vertex_shader=0x7f040009;
         public static final int sepia_fragment_shader=0x7f04000a;
         public static final int space_cruiser=0x7f04000b;
+        public static final int vignette_fragment_shader=0x7f04000c;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
@@ -132,4 +179,179 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a RajawaliSurfaceView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_frameRate rajawali.vr.example:frameRate}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_isTransparent rajawali.vr.example:isTransparent}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_multisamplingEnabled rajawali.vr.example:multisamplingEnabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_renderMode rajawali.vr.example:renderMode}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliSurfaceView_useCoverageAntiAliasing rajawali.vr.example:useCoverageAntiAliasing}</code></td><td></td></tr>
+           </table>
+           @see #RajawaliSurfaceView_frameRate
+           @see #RajawaliSurfaceView_isTransparent
+           @see #RajawaliSurfaceView_multisamplingEnabled
+           @see #RajawaliSurfaceView_renderMode
+           @see #RajawaliSurfaceView_useCoverageAntiAliasing
+         */
+        public static final int[] RajawaliSurfaceView = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#frameRate}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:frameRate
+        */
+        public static final int RajawaliSurfaceView_frameRate = 0;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#isTransparent}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:isTransparent
+        */
+        public static final int RajawaliSurfaceView_isTransparent = 3;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#multisamplingEnabled}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:multisamplingEnabled
+        */
+        public static final int RajawaliSurfaceView_multisamplingEnabled = 1;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#renderMode}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name rajawali.vr.example:renderMode
+        */
+        public static final int RajawaliSurfaceView_renderMode = 4;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#useCoverageAntiAliasing}
+          attribute's value can be found in the {@link #RajawaliSurfaceView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:useCoverageAntiAliasing
+        */
+        public static final int RajawaliSurfaceView_useCoverageAntiAliasing = 2;
+        /** Attributes that can be used with a RajawaliTextureView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RajawaliTextureView_frameRate rajawali.vr.example:frameRate}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_multisamplingEnabled rajawali.vr.example:multisamplingEnabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_renderMode rajawali.vr.example:renderMode}</code></td><td></td></tr>
+           <tr><td><code>{@link #RajawaliTextureView_useCoverageAntiAliasing rajawali.vr.example:useCoverageAntiAliasing}</code></td><td></td></tr>
+           </table>
+           @see #RajawaliTextureView_frameRate
+           @see #RajawaliTextureView_multisamplingEnabled
+           @see #RajawaliTextureView_renderMode
+           @see #RajawaliTextureView_useCoverageAntiAliasing
+         */
+        public static final int[] RajawaliTextureView = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#frameRate}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:frameRate
+        */
+        public static final int RajawaliTextureView_frameRate = 0;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#multisamplingEnabled}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:multisamplingEnabled
+        */
+        public static final int RajawaliTextureView_multisamplingEnabled = 1;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#renderMode}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>RENDER_WHEN_DIRTY</code></td><td>0</td><td></td></tr>
+<tr><td><code>RENDER_CONTINUOUS</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name rajawali.vr.example:renderMode
+        */
+        public static final int RajawaliTextureView_renderMode = 3;
+        /**
+          <p>This symbol is the offset where the {@link rajawali.vr.example.R.attr#useCoverageAntiAliasing}
+          attribute's value can be found in the {@link #RajawaliTextureView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name rajawali.vr.example:useCoverageAntiAliasing
+        */
+        public static final int RajawaliTextureView_useCoverageAntiAliasing = 2;
+    };
 }

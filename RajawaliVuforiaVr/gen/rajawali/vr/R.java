@@ -7,15 +7,27 @@
 package rajawali.vr;
 
 public final class R {
+	public static final class attr {
+		public static final int frameRate = 0x7f010000;
+		public static final int isTransparent = 0x7f010003;
+		public static final int multisamplingEnabled = 0x7f010001;
+		public static final int renderMode = 0x7f010004;
+		public static final int useCoverageAntiAliasing = 0x7f010002;
+	}
 	public static final class dimen {
 		public static final int activity_horizontal_margin = 0x7f070000;
 		public static final int activity_vertical_margin = 0x7f070001;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f020004;
+		public static final int ic_launcher = 0x7f02000e;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f090003;
+		public static final int RENDER_CONTINUOUS = 0x7f090000;
+		public static final int RENDER_WHEN_DIRTY = 0x7f090001;
+		public static final int action_settings = 0x7f090004;
+	}
+	public static final class layout {
+		public static final int layout = 0x7f030000;
 	}
 	public static final class menu {
 		public static final int rajawali_vr = 0x7f080000;
@@ -26,10 +38,11 @@ public final class R {
 		public static final int blur_fragment_shader = 0x7f040002;
 		public static final int color_threshold_shader = 0x7f040003;
 		public static final int copy_fragment_shader = 0x7f040004;
-		public static final int fog_fragment_shader = 0x7f040006;
-		public static final int grey_scale_fragment_shader = 0x7f040007;
-		public static final int minimal_vertex_shader = 0x7f040008;
-		public static final int sepia_fragment_shader = 0x7f040010;
+		public static final int fog_fragment_shader = 0x7f040008;
+		public static final int grey_scale_fragment_shader = 0x7f040009;
+		public static final int minimal_vertex_shader = 0x7f04000a;
+		public static final int sepia_fragment_shader = 0x7f040014;
+		public static final int vignette_fragment_shader = 0x7f040018;
 	}
 	public static final class string {
 		public static final int action_settings = 0x7f050002;
@@ -39,5 +52,18 @@ public final class R {
 	public static final class style {
 		public static final int AppBaseTheme = 0x7f060000;
 		public static final int AppTheme = 0x7f060001;
+	}
+	public static final class styleable {
+		public static final int[] RajawaliSurfaceView = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 };
+		public static final int RajawaliSurfaceView_frameRate = 0;
+		public static final int RajawaliSurfaceView_isTransparent = 3;
+		public static final int RajawaliSurfaceView_multisamplingEnabled = 1;
+		public static final int RajawaliSurfaceView_renderMode = 4;
+		public static final int RajawaliSurfaceView_useCoverageAntiAliasing = 2;
+		public static final int[] RajawaliTextureView = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010004 };
+		public static final int RajawaliTextureView_frameRate = 0;
+		public static final int RajawaliTextureView_multisamplingEnabled = 1;
+		public static final int RajawaliTextureView_renderMode = 3;
+		public static final int RajawaliTextureView_useCoverageAntiAliasing = 2;
 	}
 }
