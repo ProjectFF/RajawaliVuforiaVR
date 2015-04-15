@@ -12,15 +12,17 @@
  */
 package org.rajawali3d.materials.shaders;
 
-import java.util.List;
+import android.graphics.Color;
+import android.opengl.GLES20;
 
 import org.rajawali3d.lights.ALight;
 import org.rajawali3d.materials.Material.PluginInsertLocation;
 import org.rajawali3d.materials.plugins.SkeletalAnimationMaterialPlugin.SkeletalAnimationShaderVar;
 import org.rajawali3d.materials.shaders.fragments.animation.SkeletalAnimationVertexShaderFragment;
 import org.rajawali3d.math.Matrix4;
-import android.graphics.Color;
-import android.opengl.GLES20;
+import org.rajawali3d.util.RajLog;
+
+import java.util.List;
 
 public class VertexShader extends AShader {
 
@@ -66,6 +68,7 @@ public class VertexShader extends AShader {
 	@SuppressWarnings("unused")
 	private List<ALight> mLights;
 	private boolean mHasCubeMaps;
+    private boolean mHasSkyTexture;
 	private boolean mUseVertexColors;
 	private boolean mTimeEnabled;
 
@@ -162,8 +165,12 @@ public class VertexShader extends AShader {
 		}
 		
 		mvTextureCoord.assign(mgTextureCoord);
-		if (mHasCubeMaps)
-			mvCubeTextureCoord.assign(castVec3(maPosition));
+		if (mHasCubeMaps) {
+            mvCubeTextureCoord.assign(castVec3(maPosition));
+            if(mHasSkyTexture) {
+                mvCubeTextureCoord.x().assignMultiply(-1);
+            }
+        }
 		mvColor.assign(mgColor);
 		mvEyeDir.assign(castVec3(muModelViewMatrix.multiply(mgPosition)));
 		
@@ -178,10 +185,8 @@ public class VertexShader extends AShader {
 	}
 
 	@Override
-	public void applyParams()
-	{
+	public void applyParams() {
 		super.applyParams();
-
 		GLES20.glUniform4fv(muColorHandle, 1, mColor, 0);
 		GLES20.glUniform1f(muTimeHandle, mTime);
 	}
@@ -291,6 +296,11 @@ public class VertexShader extends AShader {
 	{
 		mHasCubeMaps = value;
 	}
+
+    public void hasSkyTexture(boolean value)
+    {
+        mHasSkyTexture = value;
+    }
 	
 	public void useVertexColors(boolean value)
 	{

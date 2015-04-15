@@ -2,6 +2,7 @@ package org.rajawali3d.renderer;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
+import android.view.MotionEvent;
 
 import org.rajawali3d.util.RajLog;
 
@@ -15,6 +16,16 @@ public final class NullRenderer extends RajawaliRenderer {
     public NullRenderer(Context context) {
         super(context);
         RajLog.w(this + ": Fragment created without renderer!");
+    }
+
+    @Override
+    public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset) {
+
+    }
+
+    @Override
+    public void onTouchEvent(MotionEvent event) {
+
     }
 
     @Override

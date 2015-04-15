@@ -257,11 +257,6 @@ public class Camera extends ATransformable3D {
 		}
 	}
 	
-	@Override
-	public TYPE getFrameTaskType() {
-		return AFrameTask.TYPE.CAMERA;
-	}
-
 	public Camera clone() {
 		Camera cam = new Camera();
 		cam.setFarPlane(mFarPlane);

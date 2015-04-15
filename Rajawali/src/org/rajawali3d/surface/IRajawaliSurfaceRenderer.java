@@ -2,6 +2,7 @@ package org.rajawali3d.surface;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 import android.view.TextureView;
 
 import org.rajawali3d.renderer.RajawaliRenderer;
@@ -37,6 +38,13 @@ public interface IRajawaliSurfaceRenderer {
      * @param rate {@code double} The target rate.
      */
     public void setFrameRate(double rate);
+
+    /**
+     * Called to inform the renderer of the multisampling configuration on this surface.
+     *
+     * @param config {@link IRajawaliSurface.ANTI_ALIASING_CONFIG} The desired anti aliasing configuration.
+     */
+    public void setAntiAliasingMode(IRajawaliSurface.ANTI_ALIASING_CONFIG config);
 
     /**
      * Sets the {@link IRajawaliSurface} which this implementation will be rendering on.
@@ -89,4 +97,29 @@ public interface IRajawaliSurfaceRenderer {
      * @param gl {@link GL10} for rendering.
      */
     public void onRenderFrame(GL10 gl);
+
+    /**
+     * NOTE: Only relevant when rendering a live wallpaper.
+     *
+     * Called to inform you of the wallpaper's offsets changing within its contain, corresponding to the container's
+     * call to WallpaperManager.setWallpaperOffsets().
+     *
+     * @param xOffset
+     * @param yOffset
+     * @param xOffsetStep
+     * @param yOffsetStep
+     * @param xPixelOffset
+     * @param yPixelOffset
+     */
+    public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep,
+                                          float yOffsetStep, int xPixelOffset, int yPixelOffset);
+
+    /**
+     * Called as the user performs touch-screen interaction with the window that is currently showing this wallpaper.
+     * Note that the events you receive here are driven by the actual application the user is interacting with,
+     * so if it is slow you will get fewer move events.
+     *
+     * @param event {@link MotionEvent} The touch event.
+     */
+    public void onTouchEvent(MotionEvent event);
 }

@@ -1,10 +1,15 @@
 package org.rajawali3d.loader.awd;
 
+import java.util.ArrayList;
+
 import android.util.SparseArray;
 
 import org.apache.http.ParseException;
-
 import org.rajawali3d.Object3D;
+import org.rajawali3d.animation.mesh.SkeletalAnimationChildObject3D;
+import org.rajawali3d.animation.mesh.SkeletalAnimationChildObject3D.BoneVertex;
+import org.rajawali3d.animation.mesh.SkeletalAnimationChildObject3D.BoneWeight;
+import org.rajawali3d.animation.mesh.SkeletalAnimationObject3D;
 import org.rajawali3d.loader.LoaderAWD.AWDLittleEndianDataInputStream;
 import org.rajawali3d.loader.LoaderAWD.BlockHeader;
 import org.rajawali3d.util.RajLog;
@@ -18,21 +23,46 @@ import org.rajawali3d.util.RajLog;
  */
 public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 
+	protected Object3D finalObject = null;
 	protected Object3D[] mBaseObjects;
 	protected String mLookupName;
 	protected int mSubGeometryCount;
 
 	@Override
 	public Object3D getBaseObject3D() {
-		if (mBaseObjects.length == 1)
-			return mBaseObjects[0];
 
-		final Object3D container = new Object3D(mLookupName);
-		container.isContainer(true);
-		for (int i = 0; i < mBaseObjects.length; i++)
-			container.addChild(mBaseObjects[i]);
+		if(finalObject != null)
+			return finalObject;
 
-		return container;
+		if(mBaseObjects[0] instanceof SkeletalAnimationChildObject3D)
+		{
+			SkeletalAnimationObject3D container = new SkeletalAnimationObject3D();
+
+			for(int i = 0; i < mBaseObjects.length; i++)
+			{
+				SkeletalAnimationChildObject3D child =
+					(SkeletalAnimationChildObject3D)mBaseObjects[i];
+
+				child.setSkeleton(container);
+
+				container.addChild(child);
+			}
+
+			finalObject = container;
+		}
+		else if (mBaseObjects.length == 1)
+			finalObject = mBaseObjects[0];
+		else
+		{
+			final Object3D container = new Object3D(mLookupName);
+			container.isContainer(true);
+			for (int i = 0; i < mBaseObjects.length; i++)
+				container.addChild(mBaseObjects[i]);
+
+			finalObject = container;
+		}
+
+		return finalObject;
 	}
 
 	public void parseBlock(AWDLittleEndianDataInputStream dis, BlockHeader blockHeader) throws Exception {
@@ -48,8 +78,10 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 		mBaseObjects = new Object3D[mSubGeometryCount];
 
 		// Debug
-		RajLog.d("  Lookup Name: " + mLookupName);
-		RajLog.d("  Sub Geometry Count: " + mSubGeometryCount);
+        if (RajLog.isDebugEnabled()) {
+            RajLog.d("  Lookup Name: " + mLookupName);
+            RajLog.d("  Sub Geometry Count: " + mSubGeometryCount);
+        }
 
 		// Determine the precision for the block
 		final boolean geoAccuracy = (blockHeader.flags & BlockHeader.FLAG_ACCURACY_GEO) ==
@@ -79,6 +111,9 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 			float[] uvs = null;
 			float[] normals = null;
 
+			int[] joints = null;
+			float[] weights = null;
+
 			// Skip reading of mesh properties for now (per AWD implementation)
 			dis.readProperties();
 
@@ -89,8 +124,9 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 				int typeF = dis.readUnsignedByte();
 				long subLength = dis.readUnsignedInt();
 				long subEnd = dis.getPosition() + subLength;
-				RajLog.d("   Mesh Data: t:" + type + " tf:" + typeF + " l:" + subLength + " ls:" + dis.getPosition()
-						+ " le:" + subEnd);
+
+                if (RajLog.isDebugEnabled())
+                    RajLog.d("   Mesh Data: t:" + type + " tf:" + typeF + " l:" + subLength + " ls:" + dis.getPosition() + " le:" + subEnd);
 
 				// Process the mesh data by type
 				switch ((int) type) {
@@ -119,9 +155,17 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 						normals[idx++] = (float) dis.readPrecisionNumber(blockHeader.globalPrecisionGeo);
 					}
 					break;
-				case 5: // Vertex tangents
 				case 6: // Joint index
+					joints = new int[(int) (subLength / 2)];
+					while (idx < joints.length)
+						joints[idx++] = dis.readUnsignedShort();
+					break;
 				case 7: // Joint weight
+					weights = new float[(int) (subLength / geoPrecisionSize)];
+					while (idx < weights.length)
+						weights[idx++] = (float) dis.readPrecisionNumber(blockHeader.globalPrecisionGeo);
+					break;
+				case 5: // Vertex tangents
 				default:
 					// Unknown mesh data, skipping
 					dis.skip(subLength);
@@ -145,8 +189,78 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 				indices = new int[0];
 
 			// FIXME This should be combining sub geometry not creating objects
-			mBaseObjects[parsedSub] = new Object3D();
-			mBaseObjects[parsedSub].setData(vertices, normals, uvs, null, indices, false);
+			if(joints != null && joints.length > 0)
+			{
+				/*
+				 * Prepares skeletal animation object as far as possible; setting mesh
+				 * and skeletal weight data. The object will not yet have an actual
+				 * skeleton applied to it.
+				 */
+				SkeletalAnimationChildObject3D obj = new SkeletalAnimationChildObject3D();
+				obj.setData(vertices, normals, uvs, null, indices, false);
+
+				int numVertices = vertices.length/3;
+
+				// AWD stipulates all vertices have same # bindings, possibly 0 weighted
+				int weightsPerVertex = weights.length/numVertices;
+
+				// true WPV may be out of range, so clamp
+				int clampWeightsPerVertex = Math.min(weightsPerVertex,
+					SkeletalAnimationChildObject3D.MAX_WEIGHTS_PER_VERTEX);
+
+				// one BoneVertex per actual vertex, maps to N weights & joint indices
+				BoneVertex[] bvertices = new BoneVertex[numVertices];
+				ArrayList<BoneWeight> bweights = new ArrayList<BoneWeight>();
+
+				int maxWeightsPerVertex = 0;
+				int vertexWeightIndex = 0;
+
+				for(int vert = 0; vert < numVertices; vert++)
+				{
+					BoneVertex bone = new BoneVertex();
+
+					bvertices[vert] = bone;
+
+					// we may ignore weights, so map to our custom list
+					bone.weightIndex = bweights.size();
+
+					// true position in raw weight array
+					vertexWeightIndex = vert * weightsPerVertex;
+
+					// only add first [clamp] non-zero weights
+					for(int wgt = 0; wgt < clampWeightsPerVertex; wgt++)
+					{
+						if(weights[vertexWeightIndex + wgt] == 0)
+							continue;
+
+						BoneWeight weight = new BoneWeight();
+
+						// joints and weights are indexed together
+						weight.jointIndex = joints[vertexWeightIndex + wgt];
+						weight.weightValue = weights[vertexWeightIndex + wgt];
+
+						bone.numWeights++;
+
+						bweights.add(weight);
+					}
+
+					maxWeightsPerVertex = Math.max(maxWeightsPerVertex, bone.numWeights);
+				}
+
+				// extract the clean BoneWeight array
+				BoneWeight[] boneweights = bweights.toArray(new BoneWeight[bweights.size()]);
+
+				obj.setMaxBoneWeightsPerVertex(maxWeightsPerVertex);
+				obj.setSkeletonMeshData(bvertices, boneweights);
+				//obj.setInverseZScale(true);
+
+				mBaseObjects[parsedSub] = obj;
+			}
+			else
+			{
+				mBaseObjects[parsedSub] = new Object3D();
+				mBaseObjects[parsedSub].setData(vertices, normals, uvs, null, indices, false);
+			}
 		}
 
 		dis.readUserAttributes(null);

@@ -17,7 +17,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.opengl.GLES20;
 
-import org.rajawali3d.Camera;
+import org.rajawali3d.cameras.Camera;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.textures.ATexture.TextureException;
 import org.rajawali3d.math.Quaternion;
@@ -81,7 +81,7 @@ import org.rajawali3d.scene.RajawaliScene;
  * @author dennis.ippel
  *
  */
-public class RajawaliSideBySideRenderer extends RajawaliRenderer {
+public abstract class RajawaliSideBySideRenderer extends RajawaliRenderer {
 	/**
 	 * Stores the camera's orientation. This is set from the 
 	 * activity by the rotation vector sensor.
@@ -190,13 +190,16 @@ public class RajawaliSideBySideRenderer extends RajawaliRenderer {
 		mSideBySideScene = new RajawaliScene(this);
 
 		mLeftQuad = new ScreenQuad();
-		mLeftQuad.setScaleX(.5);
+		mLeftQuad.setScaleX(.45);
+		mLeftQuad.setScaleY(.7);
+		
 		mLeftQuad.setX(-.25);
 		mLeftQuad.setMaterial(mLeftQuadMaterial);
 		mSideBySideScene.addChild(mLeftQuad);
 
 		mRightQuad = new ScreenQuad();
-		mRightQuad.setScaleX(.5);
+		mRightQuad.setScaleX(.45);
+		mRightQuad.setScaleY(.7);
 		mRightQuad.setX(.25);
 		mRightQuad.setMaterial(mRightQuadMaterial);
 		mSideBySideScene.addChild(mRightQuad);

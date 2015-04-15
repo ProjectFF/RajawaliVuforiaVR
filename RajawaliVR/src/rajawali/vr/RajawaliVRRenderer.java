@@ -4,6 +4,7 @@ import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.renderer.RajawaliSideBySideRenderer;
 import android.content.Context;
+import android.view.MotionEvent;
 
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.sensors.HeadTracker;
@@ -45,5 +46,19 @@ public class RajawaliVRRenderer extends RajawaliSideBySideRenderer {
 		
 		setCameraOrientation(mCameraOrientation);
 		super.onRender(ellapsedTime, deltaTime);
+	}
+
+	@Override
+	public void onOffsetsChanged(float xOffset, float yOffset,
+			float xOffsetStep, float yOffsetStep, int xPixelOffset,
+			int yPixelOffset) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

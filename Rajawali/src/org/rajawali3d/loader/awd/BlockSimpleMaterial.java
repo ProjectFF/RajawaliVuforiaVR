@@ -128,10 +128,12 @@ public class BlockSimpleMaterial extends ATextureBlockParser {
 			throw new NotParsableException("Spezial type " + mSpezialType + " is not currently supported.");
 
 		// Debug
-		RajLog.d("  Lookup Name: " + mLookupName);
-		RajLog.d("  Material Type: " + mMaterialType);
-		RajLog.d("  Shading Methods: " + mShadingMethodCount);
-		RajLog.d("  Spezial Type: " + mSpezialType);
+        if (RajLog.isDebugEnabled()) {
+            RajLog.d("  Lookup Name: " + mLookupName);
+            RajLog.d("  Material Type: " + mMaterialType);
+            RajLog.d("  Shading Methods: " + mShadingMethodCount);
+            RajLog.d("  Spezial Type: " + mSpezialType);
+        }
 
 		// Parse the methods
 		for (int i = 0; i < mShadingMethodCount; ++i) {
@@ -155,7 +157,7 @@ public class BlockSimpleMaterial extends ATextureBlockParser {
 		switch (mMaterialType) {
 		case TYPE_COLOR:
 			// default to 0xcccccc per AWD implementation
-			diffuseColor = (Long) properties.get((short) 1, 0xccccccl);
+			diffuseColor = (Long) properties.get((short) 1, 0xccccccL);
 			final float[] colorFloat = new float[4];
 			colorFloat[0] = ((diffuseColor >> 16) & 0xff) / 255.0f;
 			colorFloat[1] = ((diffuseColor >> 8) & 0xff) / 255.0f;

@@ -23,9 +23,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener {
 @Override
 protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
-    getPreferenceManager().setSharedPreferencesName(
-    		Wallpaper.SHARED_PREFS_NAME);
-    //addPreferencesFromResource(R.xml.settings);
+   //addPreferencesFromResource(R.xml.settings);
     getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(
             this);
 }

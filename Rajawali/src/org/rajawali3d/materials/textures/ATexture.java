@@ -22,7 +22,7 @@ import org.rajawali3d.renderer.RajawaliRenderer;
 import android.graphics.Bitmap.Config;
 import android.opengl.GLES20;
 
-public abstract class ATexture extends AFrameTask {
+public abstract class ATexture {
 	/**
 	 * Texture types
 	 */
@@ -215,7 +215,7 @@ public abstract class ATexture extends AFrameTask {
 	 *            the texture id to set
 	 */
 	public void setTextureId(int textureId) {
-		this.mTextureId = textureId;
+		mTextureId = textureId;
 	}
 
 	/**
@@ -397,10 +397,6 @@ public abstract class ATexture extends AFrameTask {
 	
 	public void setGLTextureType(int glTextureType) {
 		mGLTextureType = glTextureType;
-	}
-	
-	public TYPE getFrameTaskType() {
-		return TYPE.TEXTURE;
 	}
 	
 	public void setOwnerIdentity(String identity)

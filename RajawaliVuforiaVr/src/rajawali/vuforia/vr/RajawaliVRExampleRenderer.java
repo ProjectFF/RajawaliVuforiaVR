@@ -2,7 +2,10 @@ package rajawali.vuforia.vr;
 
 import java.io.File;
 import java.io.ObjectInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -15,6 +18,8 @@ import org.rajawali3d.bounds.IBoundingVolume;
 import org.rajawali3d.lights.DirectionalLight;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.textures.ATexture;
+import org.rajawali3d.materials.textures.AlphaMapTexture;
 import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.Quaternion;
@@ -74,6 +79,12 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 	Object3D[] colliders = new Object3D[20];
 	IBoundingVolume bbox, bbox2;
 	Vector3 oldpos = new Vector3(0,0,0);
+	private AlphaMapTexture mTextTexture;
+	private Bitmap mTextBitmap;
+	private Canvas mTextCanvas;
+	private Paint mTextPaint;
+	private boolean mShouldUpdateTexture;
+	private String Score = "";
 	
 	public RajawaliVRExampleRenderer(Context context) {
 		super(context);
@@ -96,7 +107,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 		getCurrentScene().addLight(light);
 		
 		getCurrentCamera().setFarPlane(10000);
-		//getCurrentCamera().setFieldOfView(120);
+	    //getCurrentCamera().setFieldOfView(120);
 		
 		getCurrentScene().setBackgroundColor(0xdddddd);
 		
@@ -110,11 +121,18 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 		    player.setFps(15);
 			loadAnim2Obj(player,"player_idle", false); 
 			
-			Material cM = new Material();
-			playerbox = new Cube(1);
-			playerbox.setShowBoundingVolume(true);
-			playerbox.setMaterial(cM);
+			Material textMat = new Material();
+			mTextBitmap = Bitmap.createBitmap(256, 256, Config.ARGB_8888);
+			mTextTexture = new AlphaMapTexture("timeTexture", mTextBitmap);
+			textMat.setColorInfluence(1);
+			textMat.addTexture(mTextTexture);
+			
+			playerbox = new Plane(2,1,1,1);
+			playerbox.setMaterial(textMat);
+			playerbox.setTransparent(true);
+			playerbox.setDoubleSided(true);
 			playerbox.setVisible(true);
+			playerbox.setPosition(0, 1,5); 
 			getCurrentScene().addChild(playerbox);
 			
 			
@@ -140,7 +158,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 			}
 			room.setMaterial(roommat);
 			room.setDoubleSided(true);
-			room.setScale(.05,.05,.05);
+			room.setScale(.03,.03,.03);
 			room.setPosition(-10,-2,-10);
 			room.setShowBoundingVolume(true);
 			getCurrentScene().addChild(room);
@@ -215,22 +233,38 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 		return showMonster(Monster,pos,rot,new Vector3(0.0001f), 8);
 	}
 	
-	public Bitmap textAsBitmap(String text) 
+	public void updateTimeBitmap() {
+		new Thread(new Runnable() {
+			public void run() {
+				if (mTextCanvas == null) {
+
+					mTextCanvas = new Canvas(mTextBitmap);
+					mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+					mTextPaint.setColor(Color.WHITE);
+					mTextPaint.setTextSize(35);
+				}
+				//
+				// -- Clear the canvas, transparent
+				//
+				mTextCanvas.drawColor(0, Mode.CLEAR);
+				//
+				// -- Draw the time on the canvas
+				//
+				mTextCanvas.drawText(Score, 75,
+						128, mTextPaint);
+				//
+				// -- Indicates that the texture should be updated on the OpenGL thread.
+				//
+				mShouldUpdateTexture = true;
+			}
+		}).start();
+	}
+	
+	public ATexture textAsBitmap() 
 	{
-		Bitmap mScoreBitmap = Bitmap.createBitmap(256, 256, Config.ARGB_8888);
-		
-		Canvas mScoreCanvas = new Canvas(mScoreBitmap);
-		Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mTextPaint.setColor(Color.WHITE);
-		mTextPaint.setTextSize(50);
-		mTextPaint.setTypeface(Typeface.MONOSPACE);
-		
-		mScoreCanvas.drawColor(0, Mode.CLEAR);
-		
-		mScoreCanvas.drawText(text, 80,
-				148, mTextPaint);
-		
-		return mScoreBitmap;
+		mTextBitmap = Bitmap.createBitmap(256, 256, Config.ARGB_8888);
+		mTextTexture = new AlphaMapTexture("timeTexture", mTextBitmap);
+		return mTextTexture;
     }
 	
 	private static boolean isFireKey(int keyCode) {
@@ -254,7 +288,7 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    float speed = 1;    
+	    float speed = .5f;    
  		int deviceId = event.getDeviceId();
 	        boolean handled = false;
  		if (deviceId != -1) {
@@ -263,45 +297,48 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 	        	 switch (keyCode) {
 	                case KeyEvent.KEYCODE_DPAD_LEFT:
 	                	if (!loaded){
-	                		player.setFps(15);
 	                		loadAnim2Obj(player,"player_sidestep", false); loaded = true;
 	                		} 
-	                		player.setPosition(player.getPosition().x-speed,player.getPosition().y,player.getPosition().z);
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x-speed,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x-speed,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z);
+            				player.setPosition(player.getPosition().x-speed,player.getPosition().y,player.getPosition().z);
 	                	handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_RIGHT:
 	                	if (!loaded){ 
-	                		player.setFps(15);
 	                		loadAnim2Obj(player,"player_sidestep", false); loaded = true;
 	                		} 
                 			player.setPosition(player.getPosition().x+speed,player.getPosition().y,player.getPosition().z);
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x+speed,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x+speed,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z);
                 		handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_UP:
 	                	if (!loaded){ 
-	                		player.setFps(15);
 	                		loadAnim2Obj(player,"player_run", false); loaded = true;
 	                		} 
                 			player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z-speed);
-	                	handled = true;
+                			super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z-speed);
+                			super.mCameraRight.setPosition(super.mCameraRight.getPosition().x,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z-speed);
+                			handled = true;
 	                    break;
 	                case KeyEvent.KEYCODE_DPAD_DOWN:
 	                	if (!loaded){ 
 	                		loadAnim2Obj(player,"player_walk", false); loaded = true;player.setFps(15);
 	                		}
-                			player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z+speed);
+	                		super.mCameraLeft.setPosition(super.mCameraLeft.getPosition().x,super.mCameraLeft.getPosition().y,super.mCameraLeft.getPosition().z+speed);
+	                		super.mCameraRight.setPosition(super.mCameraRight.getPosition().x,super.mCameraRight.getPosition().y,super.mCameraRight.getPosition().z+speed);
+                    		player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z+speed);
 	                	handled = true;
 	                    break;
 	                case 105:
 	                	if (!loaded){
-	                		player.setFps(30);
 	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
 	                		}
 	                	handled = true;
 	                    break;
 	                case 104:
 	                	if (!loaded){
-	                		player.setFps(30);
 	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
 	                		}
 	                	handled = true;
@@ -328,8 +365,24 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 	public void onDrawFrame(GL10 glUnused) {
 		super.onRenderFrame(glUnused);
 		count+=0.1f;
-		super.mCameraLeft.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
-		super.mCameraRight.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
+		//super.mCameraLeft.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
+		//super.mCameraRight.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
+		
+		if (mFrameCount++ >= mFrameRate) {
+            mFrameCount = 0;
+            Score = "X: " +  Double.toString(player.getX()) + " Y: " + Double.toString(player.getY()) + " Z: " + Double.toString(player.getZ()); 
+            updateTimeBitmap();
+        }
+        //
+        // -- update the texture because it is ready
+        //
+        if (mShouldUpdateTexture) {
+            mTextTexture.setBitmap(mTextBitmap);
+            mTextureManager.replaceTexture(mTextTexture);
+            mShouldUpdateTexture = false;
+        }
+        //playerbox.setPosition(getCurrentCamera().getX(),getCurrentCamera().getY(),getCurrentCamera().getZ()+5);
+		player.setOrientation(getCurrentCamera().getOrientation());
 		
 //			if (colliders.length != 0){
 //				for (Object3D collider : colliders){
