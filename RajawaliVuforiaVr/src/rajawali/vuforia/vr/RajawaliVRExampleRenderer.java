@@ -24,10 +24,12 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
+import org.rajawali3d.loader.ALoader;
 import org.rajawali3d.loader.Loader3DSMax;
 import org.rajawali3d.loader.LoaderAWD;
 import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
+import org.rajawali3d.loader.async.IAsyncLoaderCallback;
 import org.rajawali3d.loader.md5.LoaderMD5Anim;
 import org.rajawali3d.loader.md5.LoaderMD5Mesh;
 import org.rajawali3d.primitives.Cube;
@@ -64,7 +66,7 @@ import android.view.InputDevice;
 import android.view.KeyEvent;
 
 
-public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRajawaliSurfaceRenderer {
+public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRajawaliSurfaceRenderer, IAsyncLoaderCallback {
 	float count = 0;
 	Quaternion mPlayerOrientation = new Quaternion();
 	Quaternion q = new Quaternion();
@@ -84,7 +86,11 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 	private Canvas mTextCanvas;
 	private Paint mTextPaint;
 	private boolean mShouldUpdateTexture;
+	private boolean bulletIntersected;
 	private String Score = "";
+	private Material bullet_mat = new Material();
+	private Object3D bullet;
+	
 	
 	public RajawaliVRExampleRenderer(Context context) {
 		super(context);
@@ -137,31 +143,10 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 			
 			
 			//Loader3DSMax loader = new Loader3DSMax(this, R.raw.room2);
-			LoaderAWD loader = new LoaderAWD(mContext.getResources(), mTextureManager, R.raw.model);
-			//LoaderOBJ loader = new LoaderOBJ(mContext.getResources(), mTextureManager, R.raw.torbogen_obj);
+			//LoaderAWD loader = new LoaderAWD(mContext.getResources(), mTextureManager, R.raw.model);
+			LoaderOBJ loader = new LoaderOBJ(mContext.getResources(), mTextureManager, R.raw.labobj);
+			loadModel(loader, this, R.raw.labobj);
 			
-			loader.parse();
-			
-			Material roommat = new Material();
-			roommat.setDiffuseMethod(new DiffuseMethod.Lambert());
-			roommat.setColorInfluence(0);
-			roommat.enableLighting(true);
-			roommat.addTexture(new Texture("roommat", R.drawable.desert));
-			
-			room = loader.getParsedObject();
-			for (int i = 0; i < room.getNumChildren(); i++){
-				String Name = room.getChildAt(i).getName();
-				if(Name.startsWith("collider")){ 
-					colliders[i]  = room.getChildAt(i).clone();
-					colliders[i].setVisible(false);
-				}
-			}
-			room.setMaterial(roommat);
-			room.setDoubleSided(true);
-			room.setScale(.03,.03,.03);
-			room.setPosition(-10,-2,-10);
-			room.setShowBoundingVolume(true);
-			getCurrentScene().addChild(room);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -287,6 +272,21 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 		return false;
 	}
 	
+	public void createCube(Object3D obj){
+		bullet_mat.setColorInfluence(1);
+		bullet_mat.setColor(0);
+		
+		bullet = new Cube(.3f);
+		bullet.setMaterial(bullet_mat);
+		bullet.setDoubleSided(true);
+		
+		bullet.setPosition(obj.getPosition());
+		bullet.setOrientation(obj.getOrientation());
+		
+		getCurrentScene().addChild(bullet);
+		
+	}
+	
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    float speed = .5f;    
  		int deviceId = event.getDeviceId();
@@ -331,13 +331,14 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
                     		player.setPosition(player.getPosition().x,player.getPosition().y,player.getPosition().z+speed);
 	                	handled = true;
 	                    break;
-	                case 105:
+	                case 96:
 	                	if (!loaded){
 	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
+	                			//createCube(player);
 	                		}
 	                	handled = true;
 	                    break;
-	                case 104:
+	                case 97:
 	                	if (!loaded){
 	                		loadAnim2Obj(player,"player_shoot", false); loaded = true;
 	                		}
@@ -368,21 +369,27 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 		//super.mCameraLeft.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
 		//super.mCameraRight.setPosition(player.getPosition().x,player.getPosition().y+2,player.getPosition().z+5);
 		
-		if (mFrameCount++ >= mFrameRate) {
-            mFrameCount = 0;
-            Score = "X: " +  Double.toString(player.getX()) + " Y: " + Double.toString(player.getY()) + " Z: " + Double.toString(player.getZ()); 
-            updateTimeBitmap();
-        }
+//		if (mFrameCount++ >= mFrameRate) {
+//            mFrameCount = 0;
+//            Score = "X: " +  Double.toString(player.getX()) + " Y: " + Double.toString(player.getY()) + " Z: " + Double.toString(player.getZ()); 
+//            updateTimeBitmap();
+//        }
         //
         // -- update the texture because it is ready
         //
-        if (mShouldUpdateTexture) {
-            mTextTexture.setBitmap(mTextBitmap);
-            mTextureManager.replaceTexture(mTextTexture);
-            mShouldUpdateTexture = false;
-        }
+//        if (mShouldUpdateTexture) {
+//            mTextTexture.setBitmap(mTextBitmap);
+//            mTextureManager.replaceTexture(mTextTexture);
+//            mShouldUpdateTexture = false;
+//        }
         //playerbox.setPosition(getCurrentCamera().getX(),getCurrentCamera().getY(),getCurrentCamera().getZ()+5);
 		player.setOrientation(getCurrentCamera().getOrientation());
+		
+//		if (!bulletIntersected && bullet != null){
+//			
+//			
+//			
+//		}
 		
 //			if (colliders.length != 0){
 //				for (Object3D collider : colliders){
@@ -401,5 +408,47 @@ public class RajawaliVRExampleRenderer extends RajawaliVRRenderer implements IRa
 //				}
 //			}
 		}
+
+	@Override
+	public void onModelLoadComplete(ALoader loader) {
+		// TODO Auto-generated method stub
+		
+		Material roommat = new Material();
+		roommat.setDiffuseMethod(new DiffuseMethod.Lambert());
+		roommat.setColorInfluence(0);
+		roommat.enableLighting(true);
+		try{
+			roommat.addTexture(new Texture("roommat", R.drawable.texture));
+		}catch(Exception e){
+			
+		}
+		
+		final LoaderOBJ obj = (LoaderOBJ) loader;
+		
+		room = obj.getParsedObject();
+		
+//		for (int i = 0; i < room.getNumChildren(); i++){
+//			String Name = room.getChildAt(i).getName();
+//			if(Name.startsWith("collider")){ 
+//				colliders[i]  = room.getChildAt(i).clone();
+//				colliders[i].setVisible(false);
+//			}
+//		}
+//		
+		room.setMaterial(roommat);
+		room.setDoubleSided(true);
+		room.setScale(1.03,1.03,1.03);
+		room.setPosition(-0,-0,-0);
+		room.setShowBoundingVolume(true);
+		getCurrentScene().addChild(room);
+		
+	}
+	
+
+	@Override
+	public void onModelLoadFailed(ALoader loader) {
+		// TODO Auto-generated method stub
+		
+	}
 	}
 

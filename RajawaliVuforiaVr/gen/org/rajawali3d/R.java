@@ -20,7 +20,7 @@ public final class R {
 		public static final int renderMode = 0x7f010009;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02000e;
+		public static final int ic_launcher = 0x7f020001;
 	}
 	public static final class id {
 		public static final int RENDER_CONTINUOUS = 0x7f090002;
@@ -36,9 +36,9 @@ public final class R {
 		public static final int copy_fragment_shader = 0x7f040004;
 		public static final int fog_fragment_shader = 0x7f040008;
 		public static final int grey_scale_fragment_shader = 0x7f040009;
-		public static final int minimal_vertex_shader = 0x7f04000a;
-		public static final int sepia_fragment_shader = 0x7f040014;
-		public static final int vignette_fragment_shader = 0x7f040018;
+		public static final int minimal_vertex_shader = 0x7f04000d;
+		public static final int sepia_fragment_shader = 0x7f040016;
+		public static final int vignette_fragment_shader = 0x7f040017;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f050000;

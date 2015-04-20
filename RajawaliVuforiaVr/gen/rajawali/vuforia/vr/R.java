@@ -103,29 +103,17 @@ containing a value of this type.
         public static final int activity_vertical_margin=0x7f070001;
     }
     public static final class drawable {
-        public static final int dedust_material_1=0x7f020000;
-        public static final int dedust_material_10=0x7f020001;
-        public static final int dedust_material_11=0x7f020002;
-        public static final int dedust_material_12=0x7f020003;
-        public static final int dedust_material_13=0x7f020004;
-        public static final int dedust_material_2=0x7f020005;
-        public static final int dedust_material_3=0x7f020006;
-        public static final int dedust_material_4=0x7f020007;
-        public static final int dedust_material_5=0x7f020008;
-        public static final int dedust_material_6=0x7f020009;
-        public static final int dedust_material_7=0x7f02000a;
-        public static final int dedust_material_8=0x7f02000b;
-        public static final int dedust_material_9=0x7f02000c;
-        public static final int desert=0x7f02000d;
-        public static final int ic_launcher=0x7f02000e;
-        public static final int negx=0x7f02000f;
-        public static final int negy=0x7f020010;
-        public static final int negz=0x7f020011;
-        public static final int player=0x7f020012;
-        public static final int posx=0x7f020013;
-        public static final int posy=0x7f020014;
-        public static final int posz=0x7f020015;
-        public static final int room=0x7f020016;
+        public static final int desert=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int negx=0x7f020002;
+        public static final int negy=0x7f020003;
+        public static final int negz=0x7f020004;
+        public static final int player=0x7f020005;
+        public static final int posx=0x7f020006;
+        public static final int posy=0x7f020007;
+        public static final int posz=0x7f020008;
+        public static final int room=0x7f020009;
+        public static final int texture=0x7f02000a;
     }
     public static final class id {
         public static final int RENDER_CONTINUOUS=0x7f090002;
@@ -155,21 +143,20 @@ containing a value of this type.
         public static final int floor=0x7f040007;
         public static final int fog_fragment_shader=0x7f040008;
         public static final int grey_scale_fragment_shader=0x7f040009;
-        public static final int minimal_vertex_shader=0x7f04000a;
-        public static final int model=0x7f04000b;
-        public static final int player_idle=0x7f04000c;
-        public static final int player_mesh=0x7f04000d;
-        public static final int player_run=0x7f04000e;
-        public static final int player_shoot=0x7f04000f;
-        public static final int player_sidestep=0x7f040010;
-        public static final int player_walk=0x7f040011;
-        public static final int room=0x7f040012;
-        public static final int room2=0x7f040013;
-        public static final int sepia_fragment_shader=0x7f040014;
-        public static final int test=0x7f040015;
-        public static final int torbogen_mtl=0x7f040016;
-        public static final int torbogen_obj=0x7f040017;
-        public static final int vignette_fragment_shader=0x7f040018;
+        public static final int lab=0x7f04000a;
+        public static final int labmtl=0x7f04000b;
+        public static final int labobj=0x7f04000c;
+        public static final int minimal_vertex_shader=0x7f04000d;
+        public static final int model=0x7f04000e;
+        public static final int model2=0x7f04000f;
+        public static final int player_idle=0x7f040010;
+        public static final int player_mesh=0x7f040011;
+        public static final int player_run=0x7f040012;
+        public static final int player_shoot=0x7f040013;
+        public static final int player_sidestep=0x7f040014;
+        public static final int player_walk=0x7f040015;
+        public static final int sepia_fragment_shader=0x7f040016;
+        public static final int vignette_fragment_shader=0x7f040017;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
