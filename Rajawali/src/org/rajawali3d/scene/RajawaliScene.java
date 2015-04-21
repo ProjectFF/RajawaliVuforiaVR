@@ -850,13 +850,13 @@ public class RajawaliScene {
 	 * @param negz int Resource id for the down face.
 	 * @throws TextureException 
 	 */
-	public void setSkybox(int posx, int negx, int posy, int negy, int posz, int negz) throws TextureException {
+	public void setSkybox(int posx, int negx, int posy, int negy, int posz, int negz, float size) throws TextureException {
 		synchronized (mCameras) {
 			for (int i = 0, j = mCameras.size(); i < j; ++i)
-				mCameras.get(i).setFarPlane(1000);
+				mCameras.get(i).setFarPlane(size);
 		}
 		synchronized (mNextSkyboxLock) {
-			mNextSkybox = new Cube(700, true);
+			mNextSkybox = new Cube(size-.1f, true);
 			int[] resourceIds = new int[] { posx, negx, posy, negy, posz, negz };
 			
 			mSkyboxTexture = new CubeMapTexture("skybox", resourceIds);
