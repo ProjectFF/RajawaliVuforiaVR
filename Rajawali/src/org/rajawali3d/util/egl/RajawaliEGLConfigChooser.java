@@ -5,6 +5,7 @@ import android.opengl.EGL14;
 import android.opengl.EGLExt;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import org.rajawali3d.surface.IRajawaliSurface;
 
@@ -24,7 +25,7 @@ public class RajawaliEGLConfigChooser implements GLSurfaceView.EGLConfigChooser 
 
     private final IRajawaliSurface.ANTI_ALIASING_CONFIG mAntiAliasingConfig;
 
-    public RajawaliEGLConfigChooser(int glMajorVersion, IRajawaliSurface.ANTI_ALIASING_CONFIG antiAliasingConfig,
+    public RajawaliEGLConfigChooser(int glMajorVersion, @NonNull IRajawaliSurface.ANTI_ALIASING_CONFIG antiAliasingConfig,
                                     int sampleCount, int bitsRed, int bitsGreen, int bitsBlue, int bitsAlpha, int bitsDepth) {
         mAntiAliasingConfig = antiAliasingConfig;
 
